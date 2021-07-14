@@ -1,0 +1,22 @@
+# annotation berguna untuk memberi sebuah informasi dalam jumlah yang besar 256kb
+# biasanya digunakan untuk dokumentasi dari sebuah pod
+# description bisa memasukkan nilai json
+# bisa memakai spasi
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-with-annotations
+  labels:
+    teams: product
+    version: 1.0.1
+    environment: developments
+  annotations:
+    description: ini adalah aplikasi yang dibuat oleh tim products
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80 
