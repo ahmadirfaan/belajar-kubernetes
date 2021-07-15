@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-rs
+  labels:
+    label-key1: testing
+  annotations:
+    annotation-key1: percobaan replica set
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 1
+
+
+#Pada awalnya Replication Controller digunakan untuk
+#menjaga jumlah replica Pod dan me-reschedule ulang Pod yang mati.
+#Namun sekarang, telah dikenalkan resource baru yang bernama Replica Set
+#Replica Set adalah generasi baru dari Replication Controller, dan
+#digunakan sebagai pengganti Replication Controller
+#Replication Controller sendiri penggunaannya sekarang sudah tidak direkomendasikan
+
+
+
+
+

@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-with-probe
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80
+      livenessProbe:
+        httpGet:
+          path: /
+          port: 80
+        initialDelaySeconds: 5 #tunggu 5 detik untuk melakukan pengecekan
+        periodSeconds: 10 #tiap berapa detik dilakukan pengecekan
+        timeoutSeconds: 1 #lagi connect, timeoutnya berapa lama, jika lebih dari 2 detik maka tidak sehat
+        successThreshold: 1 #ini berapa kali ngecek biar dianggap sehat
+        failureThreshold: 3 #itu berapa kali pengecekan gagal dan dianggap tidak sehat
+      readinessProbe:
+        httpGet:
+          path: /
+          port: 80
+        initialDelaySeconds: 0
+        periodSeconds: 10
+        timeoutSeconds: 1
+        successThreshold: 1
+        failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+
+
+
+
+
+
+
+# Probe: adalah suatu pengecekan di kubernetes
+# 3 jenis pengecekan: liveness, readiness, startup
+# livenes berfungsi untuk kapan perlu me-restart Pod, readiness untuk mengecek apakah Pod siap menerima traffic
+# startup berfungsi untuk pod yang membutuhkan proses startup lama dapat digunakan untuk memastikan pod tidak mati
+# sebelum kubelet selesai berjalan sempurna

@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx-rc
+  labels:
+    label-key1: development
+  annotations:
+    annotation-key1: ini percobaan nginx replication controller
+spec:
+  replicas: 3 #berapa jumlah pod yang ingin dibikin
+  selector:
+    app: #untuk melakukan select pod, harus match dengan template pod-nya
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 1
+
+##  Replication Controller bertugas untuk memastikan bahwa Pod selalu berjalan
+##  Jika tiba-tiba Pod mati atau hilang, misal ketika ada Node yang mati.
+#   Maka Replication Controller secara otomatis akan menjalankan Pod yang mati atau hilang tersebut
+##  Replication Controller biasanya ditugaskan untuk memanage lebih dari 1 Pod
+##  Replication Controller akan memastikan jumlah Pod yang berjalan sejumlah yang
+#   telah ditentukan. Jika kurang, makan aman menambah Pod baru, jika lebih maka akan
+#   menghapus Pod yang sudah ada.

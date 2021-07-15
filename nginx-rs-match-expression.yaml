@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - nginx
+      - key: env
+        operator: In
+        values:
+          - prod
+          - qa
+          - dev
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+        env: prod
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+
+#  Untuk selector di Replication Setmenggunakan matchLabels,
+#  yang artinya selector tersebut cara kerjanya match (sama seperti di ReplicationController)
+#  Selain menggunakan matchLabels, operasi lain yang bisa digunakan pada selector di Replication
+#  Set adalah menggunakan matchExpression
+# Contoh matchExpression adalah:
+#  In, value label harus ada di value in
+#  NotIn, value label tidak boleh ada di value in
+#  Exists, label harus ada
+#  NotExists, label tidak boleh ada

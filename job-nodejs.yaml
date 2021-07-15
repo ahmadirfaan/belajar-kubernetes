@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nodejs-job
+spec:
+  completions: 4 #berapa banyak job hingga dianggap complete
+  parallelism: 2 #berapa banyak pod yang berjalan di suatu waktu
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: nodejs-job
+          image: khannedy/nodejs-job
