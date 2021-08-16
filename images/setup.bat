@@ -1,7 +1,7 @@
 echo on
 docker build -t ahmadirfaan/node-js-job .
-docker push ahmadirfaan/node-js-job
-docker container create --name node-js-job ahmadirfaan/node-js-job
+docker push ghcr.io/ahmadirfaan/node-js-job:1.0
+docker container create --name node-js-job ghcr.io/ahmadirfaan/node-js-job:1.0
 docker container start node-js-job
 docker container logs -f node-js-job
 docker container stop node-js-job
